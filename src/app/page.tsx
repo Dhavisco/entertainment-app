@@ -1,100 +1,79 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import logo from "../../public/assets/logo.svg"; // Import the logo
+import Preloader from "../components/common/Preloader"; // Import Preloader component
 
-export default function Home() {
+export default function LandingPage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [fadeIn, setFadeIn] = useState(false);
+
+  useEffect(() => {
+    // Simulate loading state
+    const preloaderTimer = setTimeout(() => {
+      setIsLoading(false); // Hide preloader
+      // Add a delay for fade-in
+      setTimeout(() => {
+        setFadeIn(true); // Trigger fade-in effect
+      }, 100); // Delay of 500ms after preloader disappears
+    }, 2000); // 2 seconds
+
+    return () => clearTimeout(preloaderTimer);
+  }, []);
+
+  if (isLoading) {
+    return <Preloader />;
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div
+      className={`bg-[#10141E] h-screen flex flex-col transition-opacity duration-1000 ${
+        fadeIn ? "opacity-100" : "opacity-0"
+      }`}
+    >
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  
+      {/* Main Content */}
+      <main className="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+        {/* Logo */}
+        <Image
+          src={logo}
+          alt="Logo"
+          width={150}
+          height={150}
+          className="w-32 h-24 sm:w-40 sm:h-32"
+        />
+
+        {/* Welcome Text */}
+        <h1 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold mt-6 text-center">
+          Welcome to MovieZone
+        </h1>
+        <p className="text-gray-400 mt-4 text-center max-w-lg leading-relaxed text-sm sm:text-base lg:text-lg">
+          Discover a vast collection of movies and TV shows tailored to your
+          preferences. Sign up or log in to start curating your favorites!
+        </p>
+
+        {/* Action Buttons */}
+        <div className="mt-8 space-x-0 sm:space-x-4 flex flex-wrap gap-2 justify-center">
+          <button
+            aria-label="Log in to MovieZone"
+            className="px-6 py-3 bg-white hover:shadow-xl hover:bg-gray-100 text-black rounded-md font-medium transition-transform transform hover:scale-105 text-sm sm:text-base"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Log In
+          </button>
+          <button
+            aria-label="Sign up for MovieZone"
+            className="px-6 py-3 bg-[#FC4747] hover:bg-[#e43838] text-white rounded-md font-medium transition-transform transform hover:scale-105 text-sm sm:text-base"
           >
-            Read our docs
-          </a>
+            Sign Up
+          </button>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="text-gray-500 text-xs sm:text-sm py-4 text-center">
+        <p>&copy; {new Date().getFullYear()} MovieZone. All rights reserved.</p>
       </footer>
     </div>
   );

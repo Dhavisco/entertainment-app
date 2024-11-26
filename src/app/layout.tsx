@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
 
 export const metadata: Metadata = {
   title: "Entertainment App",
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body
         className="bg-[#10141E] text-gray-900"
       >
-        {children}
+        <ErrorBoundary>  {/* Wrap children with ErrorBoundary */}
+          {children}
+        </ErrorBoundary>
       </body>
     </html>
   );
