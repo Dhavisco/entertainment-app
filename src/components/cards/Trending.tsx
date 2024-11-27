@@ -1,5 +1,5 @@
-import data from '../../../store/data.json'; // Adjust the path to your data.json file
-import MovieCard from '../../../components/cards/MovieCard';
+import data from '../../store/data.json'; // Adjust the path to your data.json file
+import MovieCard from './MovieCard';
 
 export default function Trending() {
   return (

@@ -6,18 +6,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
-// Icons
-// import movieIcon from "/assets/icon-nav-movies.svg";
-// import tvIcon from "/assets/icon-nav-tv-series.svg";
-// import bookmarkIcon from "/assets/icon-nav-bookmark.svg";
-// import homeIcon from "/assets/icon-nav-home.svg";
-// import logo from "/assets/logo.svg";
-
-
 import movieIcon from "../../../public/assets/icon-nav-movies.svg"
 import tvIcon from "../../../public/assets/icon-nav-tv-series.svg";
 import bookmarkIcon from "../../../public/assets/icon-nav-bookmark.svg";
 import homeIcon from "../../../public/assets/icon-nav-home.svg";
+import activeBookmarkIcon from "../../../public/assets/icon-bookmark-full.svg"
+import activeHomeIcon from "../../../public/assets/icon-nav-home-full.svg"
+import activeMoviesIcon from "../../../public/assets/icon-movies.svg"
+import activeTVIcon from "../../../public/assets/icon-tv-series.svg"
 import logo from "../../../public/assets/logo.svg";
 import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
 
@@ -31,10 +27,10 @@ const Sidebar: FC<SidebarProps> = ({ isCollapsed, onToggleCollapse }) => {
   const userAvatar = "/assets/image-avatar.png"; // Corrected path for user avatar
 
   const links = [
-    { href: "/home", label: "Home", icon: homeIcon },
-    { href: "/movies", label: "Movies", icon: movieIcon },
-    { href: "/tv-series", label: "TV Series", icon: tvIcon },
-    { href: "/bookmarked", label: "Bookmarked", icon: bookmarkIcon },
+    { href: "/home", label: "Home", icon:  pathname === "/home" ? activeHomeIcon : homeIcon },
+    { href: "/movies", label: "Movies", icon:  pathname === "/movies" ? activeMoviesIcon : movieIcon },
+    { href: "/tv-series", label: "TV Series", icon:  pathname === "/tv-series" ? activeTVIcon : tvIcon },
+    {href: "/bookmarked",label: "Bookmarked", icon: pathname === "/bookmarked" ? activeBookmarkIcon : bookmarkIcon},
   ];
 
   return (
@@ -57,14 +53,10 @@ const Sidebar: FC<SidebarProps> = ({ isCollapsed, onToggleCollapse }) => {
               href={link.href}
               className={`flex items-center ${
                 isCollapsed ? "justify-center" : "justify-start"
-              } ${
-                pathname === link.href
-                  ? "bg-[#10141E]"
-                  : "hover:bg-[#0d111b77]"
-              } px-4 mx-2 py-3`}
+              } hover:bg-[#0d111b77] px-4 mx-2 py-3`}
             >
               <div className={`${isCollapsed ? "" : "mr-4"}`}>
-                <Image src={link.icon} alt="Nav Icon" width={18} height={18} />
+                <Image src={link.icon} alt="Nav Icon" />
               </div>
               {!isCollapsed && <span>{link.label}</span>}
             </Link>

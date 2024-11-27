@@ -1,7 +1,7 @@
 "use client"; // This is required for client-side rendering
 
 import MovieGrid from "../../../components/cards/MovieGrid";
-import { TrendingCarousel } from "./TrendingCarousel";
+import { TrendingCarousel } from "../../../components/cards/TrendingCarousel";
 import useMovieStore from '../../../store/searchStore'; // Importing Zustand store
 
 export default function HomePage() {

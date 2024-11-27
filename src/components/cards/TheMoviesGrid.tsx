@@ -1,7 +1,7 @@
 "use client";
 
-import useMovieStore from '../../../store/searchStore';
-import RMovieCard from '../../../components/cards/RMovieCard';
+import useMovieStore from '../../store/searchStore';
+import RMovieCard from './RMovieCard';
 
 export default function TheMoviesGrid() {
   const filteredMovies = useMovieStore((state) => state.filteredMovies);

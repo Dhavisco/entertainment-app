@@ -3,8 +3,8 @@
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import MovieCard from "../../../components/cards/MovieCard";
-import useMovieStore from "../../../store/searchStore";
+import MovieCard from "./MovieCard";
+import useMovieStore from "../../store/searchStore";
 
 export function TrendingCarousel() {
   const plugin = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));

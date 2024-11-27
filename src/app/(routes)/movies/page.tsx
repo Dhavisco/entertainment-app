@@ -1,6 +1,6 @@
 "use client"; // This is required for client-side rendering
 
-import TheMoviesGrid from "./TheMoviesGrid";
+import TheMoviesGrid from "../../../components/cards/TheMoviesGrid";
 import useMovieStore from '../../../store/searchStore'; // Importing Zustand store
 
 export default function HomePage() {
