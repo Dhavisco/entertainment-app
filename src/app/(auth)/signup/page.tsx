@@ -74,7 +74,7 @@ const Signup = () => {
           validationSchema={signupSchema}
           onSubmit={handleSignup}
         >
-          {({ isSubmitting, isValid }) => (
+          {({ isSubmitting, isValid, values }) => (
             <Form>
               {/* Email Input */}
               <TextInput
@@ -131,7 +131,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
-  );
-};
+
+  );};
 
 export default Signup;
