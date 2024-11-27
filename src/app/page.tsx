@@ -40,16 +40,14 @@ export default function LandingPage() {
         <Image
           src={logo}
           alt="Logo"
-          width={150}
-          height={150}
-          className="w-32 h-24 sm:w-40 sm:h-32"
+          className="w-24 h-16 sm:w-32 sm:h-24"
         />
 
         {/* Welcome Text */}
         <h1 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold mt-6 text-center">
           Welcome to MovieZone
         </h1>
-        <p className="text-gray-400 mt-4 text-center max-w-lg leading-relaxed text-sm sm:text-base lg:text-lg">
+        <p className="text-gray-400 mt-2 text-center max-w-lg leading-relaxed text-sm sm:text-base lg:text-lg mx-4">
           Discover a vast collection of movies and TV shows tailored to your
           preferences. Sign up or log in to start curating your favorites!
         </p>
