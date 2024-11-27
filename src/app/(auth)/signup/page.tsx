@@ -67,7 +67,7 @@ const Signup = () => {
       </div>
 
       {/* Signup Form */}
-      <div className="w-96 p-8 bg-[#161D2F] rounded-3xl">
+      <div className="w-96 p-8 sm:bg-[#161D2F] rounded-3xl">
         <h1 className="text-2xl mb-5">Sign Up</h1>
         <Formik
           initialValues={{ email: "", password: "", repeatPassword: "" }}
@@ -103,7 +103,7 @@ const Signup = () => {
               {/* Signup Button */}
               <AuthButton
                 type="submit"
-                disabled={!isValid || isSubmitting}
+                disabled={!isValid || isSubmitting || !values.email || !values.password}
                 className={`w-full mt-8 flex items-center justify-center bg-[#FC4747] text-white rounded-md transition duration-300 ${
                   isSubmitting
                     ? "cursor-not-allowed bg-opacity-50"
