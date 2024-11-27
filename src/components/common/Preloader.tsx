@@ -9,7 +9,7 @@ export default function Preloader() {
       {/* Logo */}
       <Image src={logo} alt="Loading Logo" className="animate-bounce" />
       {/* Loading Text */}
-      <p className="text-gray-400 mt-4 animate-pulse">Loading, please wait...</p>
+      {/* <p className="text-gray-400 mt-4 animate-pulse">Loading, please wait...</p> */}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "../../public/assets/logo.svg"; // Import the logo
 import Preloader from "../components/common/Preloader"; // Import Preloader component
+import Link from "next/link";
 
 export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,18 +55,22 @@ export default function LandingPage() {
 
         {/* Action Buttons */}
         <div className="mt-8 space-x-0 sm:space-x-4 flex flex-wrap gap-2 justify-center">
+          <Link href = "/login">
           <button
             aria-label="Log in to MovieZone"
             className="px-6 py-3 bg-white hover:shadow-xl hover:bg-gray-100 text-black rounded-md font-medium transition-transform transform hover:scale-105 text-sm sm:text-base"
           >
             Log In
           </button>
+          </Link>
+          <Link href="/signup">
           <button
             aria-label="Sign up for MovieZone"
             className="px-6 py-3 bg-[#FC4747] hover:bg-[#e43838] text-white rounded-md font-medium transition-transform transform hover:scale-105 text-sm sm:text-base"
           >
             Sign Up
           </button>
+          </Link>
         </div>
       </main>
 
