@@ -98,7 +98,7 @@ const Signup = () => {
                 label="Repeat Password"
                 name="repeatPassword"
                 type="password"
-                placeholder="Repeat password"
+                placeholder="Confirm password"
               />
 
               {/* Signup Button */}
