@@ -8,6 +8,7 @@ import logo from "../../../../public/assets/logo.svg";
 import Link from "next/link";
 import Preloader from "@/components/common/Preloader";
 import { useEffect, useState } from "react";
+import B2Home from "@/components/Button/B2Home";
 
 const TextInput = ({ name, ...props }: { label: string; name: string; [key: string]: unknown }) => {
 
@@ -64,7 +65,7 @@ const Login = () => {
         fadeIn ? "opacity-100" : "opacity-0"
       }`}>
       {/* Logo */}
-      <div className="mb-8">
+      <div className="mb-8 hover:cursor-pointer">
         <Image src={logo} alt="Logo" width={50} height={20} />
       </div>
 
@@ -124,6 +125,9 @@ const Login = () => {
             </button>
             </Link>
         </div>
+        
+       <B2Home/>
+
       </div>
     </div>
   );
