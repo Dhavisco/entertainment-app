@@ -1,5 +1,6 @@
 "use client";
 
+import {signIn} from "next-auth/react";
 import { Formik, Form, useField } from "formik";
 import { loginSchema } from "@/utils/validationSchemas";
 import AuthButton from "@/components/Button/authButton";
@@ -9,6 +10,7 @@ import Link from "next/link";
 import Preloader from "@/components/common/Preloader";
 import { useEffect, useState } from "react";
 import B2Home from "@/components/Button/B2Home";
+import { useRouter } from "next/navigation";
 
 const TextInput = ({ name, ...props }: { label: string; name: string; [key: string]: unknown }) => {
 
@@ -31,10 +33,44 @@ const TextInput = ({ name, ...props }: { label: string; name: string; [key: stri
   );
 };
 
-const Login = () => {
+const NotificationCard = ({
+  message,
+  type,
+  onClose,
+}: {
+  message: string;
+  type: "success" | "error";
+  onClose: () => void;
+}) => {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 5000); // Auto close after 5 seconds
+    return () => clearTimeout(timer);
+  }, [onClose]);
 
+  return (
+    <div
+      className={`fixed bottom-4 right-4 p-4 w-80 rounded-lg shadow-lg text-white ${
+        type === "success" ? "bg-green-500" : "bg-red-500"
+      } transition-opacity duration-300`}
+    >
+      <div className="flex justify-between items-center">
+        <div className="text-sm md:text-base">{message}</div>
+        <button onClick={onClose} className="text-white font-bold">
+          &times;
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const Login = () => {
+  const router = useRouter();
   const [fadeIn, setFadeIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
    useEffect(() => {
     // Simulate loading state
@@ -44,7 +80,7 @@ const Login = () => {
       setTimeout(() => {
         setFadeIn(true); // Trigger fade-in effect
       }, 100); // Delay of 500ms after preloader disappears
-    }, 2000); // 2 seconds
+    }, 5000); // 2 seconds
 
     return () => clearTimeout(preloaderTimer);
   }, []);
@@ -55,9 +91,28 @@ const Login = () => {
 
 
   const handleLogin = async (values: { email: string; password: string }) => {
-    console.log("Login values:", values);
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    console.log("Login successful");
+    // console.log("Login values:", values);
+
+     const result = await signIn("credentials", {
+    redirect: false,
+    email: values.email,
+    password: values.password,
+  });
+
+  // console.log("Login result:", result);
+
+  if (result?.error) {
+    setNotification({ message: "Login failed. Please check your credentials.", type: "error" });
+    console.error("Login failed:", result.error);
+    
+  } else {
+    setNotification({ message: "Login successful! Redirecting...", type: "success" });
+    // console.log("Login successful:", result);
+    setTimeout(() => {
+        router.push("/home")
+      }, 2000);
+  }
+
   };
 
   return (
@@ -110,8 +165,6 @@ const Login = () => {
     "Login to Your Account"
   )}
 </AuthButton>
-
-
             </Form>
           )}
         </Formik>
@@ -129,6 +182,13 @@ const Login = () => {
        <B2Home/>
 
       </div>
+       {notification && (
+        <NotificationCard
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 };

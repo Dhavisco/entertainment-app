@@ -22,7 +22,7 @@ export default function Search() {
   })();
 
   return (
-    <div className="relative mt-4 lg:mt-8 flex items-center w-full px-4 lg:px-0">
+    <div className="relative mt-4 lg:mt-2 flex items-center w-full px-4 lg:px-0">
       <Image
         alt="search"
         src={searchIcon}

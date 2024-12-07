@@ -11,6 +11,10 @@ export const loginSchema = Yup.object({
 });
 
 export const signupSchema = Yup.object({
+  firstName: Yup.string()
+    .required("Can't be empty"),
+  lastName: Yup.string()
+  .required("Can't be empty"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Can't be empty"),

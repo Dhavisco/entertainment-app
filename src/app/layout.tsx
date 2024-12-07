@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
+import ClientLayout from "./ClientLayout";
 
 export const metadata: Metadata = {
   title: "Entertainment App",
   description: "Your ultimate entertainment hub",
+  
 };
 
 export default function RootLayout({
@@ -18,7 +20,7 @@ export default function RootLayout({
         className="bg-[#10141E] text-gray-900"
       >
         <ErrorBoundary>  {/* Wrap children with ErrorBoundary */}
-          {children}
+         <ClientLayout>{children}</ClientLayout>
         </ErrorBoundary>
       </body>
     </html>

@@ -9,17 +9,18 @@ import { useField } from "formik";
 import Link from "next/link";
 import Preloader from "@/components/common/Preloader";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import B2Home from "@/components/Button/B2Home";
 
 const TextInput = ({ name, ...props }: { label: string; name: string; [key: string]: unknown }) => {
   const [field, meta] = useField(name);
   return (
-    <div className="relative w-full mb-4">
+    <div className="relative w-full mb-2">
       <input
         {...field}
         {...props}
         name={name}
-        className={`w-full p-3 py-5 bg-transparent caret-[#fc4747] font-light text-sm text-white border-b-[1px] focus:bg-transparent focus:border-b-2 focus:outline-none ${
+        className={`w-full p-3 py-3 bg-transparent caret-[#fc4747] font-light text-sm text-white border-b-[1px] focus:bg-transparent focus:border-b-2 focus:outline-none ${
           meta.touched && meta.error ? "border-b-[#fc4747]" : "border-b-white"
         }`}
       />
@@ -30,10 +31,39 @@ const TextInput = ({ name, ...props }: { label: string; name: string; [key: stri
   );
 };
 
-const Signup = () => {
+const NotificationCard = ({
+  message,
+  type,
+  onClose,
+}: {
+  message: string;
+  type: "success" | "error";
+  onClose: () => void;
+}) => {
+  return (
+    <div
+      className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transition-opacity duration-500 ${
+        type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"
+      }`}
+    >
+      <div className="flex items-center justify-between">
+        <span>{message}</span>
+        <button
+          className="ml-4 bg-transparent text-white font-medium focus:outline-none"
+          onClick={onClose}
+        >
+         &times;
+        </button>
+      </div>
+    </div>
+  );
+};
 
+const Signup = () => {
+  const router = useRouter();
   const [fadeIn, setFadeIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
    useEffect(() => {
     // Simulate loading state
@@ -48,16 +78,55 @@ const Signup = () => {
     return () => clearTimeout(preloaderTimer);
   }, []);
 
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 5000); // Auto-hide after 5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
   if (isLoading) {
     return <Preloader />;
   }
 
-  const handleSignup = async (values: { email: string; password: string; repeatPassword: string }) => {
-    console.log("Signup values:", values);
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
-    console.log("Signup successful");
-  };
+  const handleSignup = async (values: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    }) => {
+   
+  try {
+    const response = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
 
+    if (!response.ok) {
+        const errorData = await response.json();
+        setNotification({ message: errorData.error || "Signup failed", type: "error" });
+        return;
+      }
+
+      setNotification({ message: "Signup successful! Proceed to Login", type: "success" });
+
+   // Redirect to login page after a short delay
+      setTimeout(() => {
+        router.push("/login")
+      }, 2000);
+
+    } catch (error) {
+      setNotification({ message: "Signup request failed", type: "error" });
+      return error;
+    }
+
+  };    
+  
+
+ 
   return (
    <div className={`flex flex-col items-center justify-center h-screen bg-[#10141E] text-white ${
         fadeIn ? "opacity-100" : "opacity-0"
@@ -71,12 +140,28 @@ const Signup = () => {
       <div className="w-96 p-8 sm:bg-[#161D2F] rounded-3xl">
         <h1 className="text-2xl mb-5">Sign Up</h1>
         <Formik
-          initialValues={{ email: "", password: "", repeatPassword: "" }}
+          initialValues={{ firstName:"", lastName:"", email: "", password: "", repeatPassword: "" }}
           validationSchema={signupSchema}
           onSubmit={handleSignup}
         >
           {({ isSubmitting, isValid, values }) => (
             <Form>
+              {/* First Name Input */}
+              <TextInput
+                label="First Name"
+                name="firstName"
+                type="text"
+                placeholder="First Name"
+              />
+
+              {/* Last Name Input */}
+              <TextInput
+                label="Last Name"
+                name="lastName"
+                type="text"
+                placeholder="Last Name"
+              />
+
               {/* Email Input */}
               <TextInput
                 label="Email Address"
@@ -134,6 +219,16 @@ const Signup = () => {
         <B2Home/>
        
       </div>
+
+           {/* Notification Card */}
+      {notification && (
+        <NotificationCard
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
+
     </div>
   );};
 
