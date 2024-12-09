@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
-import ClientLayout from "./ClientLayout";
+import ClientLayout from "./layouts/ClientLayout";
 
 export const metadata: Metadata = {
-  title: "Entertainment App",
+  title: "MovieZone",
   description: "Your ultimate entertainment hub",
   
 };

@@ -1,25 +1,35 @@
 "use client"; // This is required for client-side rendering
 import { useState, useEffect} from "react";
+import { useRouter } from "next/navigation";
 import MobileNav from "../layouts/MobileNav";
 import Search from "../../components/ui/Search";
 import Sidebar from "../layouts/Sidebar";
 import { useSession, signOut } from "next-auth/react";
 import { AiOutlineLogout } from "react-icons/ai";
-import Preloader from "@/components/common/Preloader";
+import Preloader from "@/components/common/Preloader"
 
 export default function RoutesLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const { data: session, status } = useSession(); // Fetch session data and status
   const [isLoading, setIsLoading] = useState(true); // Manage preloader state
-
+  const router = useRouter();
+  
   useEffect(() => {
     // Simulate a consistent loading state
     const preloaderTimer = setTimeout(() => {
       setIsLoading(false); // Hide preloader after 2 seconds
     }, 2000);
 
+
     return () => clearTimeout(preloaderTimer); // Clean up timer
   }, []);
+
+
+   useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login"); // Redirect to login page
+    }
+  }, [router, status]);
 
   // Show Preloader if session is loading or the simulated delay is active
   if (isLoading || status === "loading") {
